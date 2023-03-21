@@ -1,0 +1,39 @@
+Updating Applications:
+
+//Updating Office 365:
+
+//GUI: 
+click file, click account, click updates, click update now. 
+
+//Command Line Update / run command
+"C:\Program Files\Common Files\microsoft shared\ClickToRun\OfficeC2RClient.exe" /update user
+
+//Source: https://office-watch.com/2022/microsoft-office-update-one-click-force/
+
+//Powershell Gallery - Update office 
+https://www.powershellgallery.com/packages/Update-Office365/1.0.0/Content/Update-Office365.ps1
+
+//Updating Windows: 
+
+//GUI:
+Settings, Windows Update, Update 
+
+//Command line: 
+wuauclt.exe /updatenow
+
+//Powershell:
+Get-WindowsUpdate -AcceptAll -Install -AutoReboot 
+
+Install-Module PSWindowsUpdate
+Add-WUServiceManager -MicrosoftUpdate
+Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -AutoReboot | Out-File "C:\($env.computername-Get-Date -f yyyy-MM-dd)-MSUpdates.log" -Force
+
+// multiple machines:
+
+$Computers = "pc2,pc3,pc4"
+Invoke-WUJob -ComputerName $Computers -Script {Import-Module PSWindowsUpdate; Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -AutoReboot} -RunNow -Confirm:$false | Out-File "c:\$Computers-$(Get-Date -f yyyy-MM-dd)-MSUpdates.log" -Force
+
+//https://pureinfotech.com/install-windows-10-update-powershell/ 
+//https://christitus.com/install-windows-update-powershell/
+//Powershell Gallery: 
+https://www.powershellgallery.com/packages/PSWindowsUpdate/2.2.0.3
